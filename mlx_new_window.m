@@ -318,7 +318,16 @@ int get_mouse_button(NSEventType eventtype)
   //    printf("Expose...\n");
     if (event_funct[12] != NULL)
       event_funct[12](event_param[12]);
+
+    if (event_funct[9] != NULL)
+      event_funct[9](event_param[9]);
     //    printf("Expose done.\n");
+}
+
+- (void) lostFocusNotification:(NSNotification *)note
+{
+  if (event_funct[10] != NULL)
+    event_funct[10](event_param[10]);
 }
 
 - (void) closeNotification:(NSNotification *)note
@@ -369,6 +378,7 @@ int get_mouse_button(NSEventType eventtype)
 
       //      [[NSNotificationCenter defaultCenter] addObserver:win selector:@selector(exposeNotification:) name:@"NSWindowDidExposeNotification" object:nil];
       [[NSNotificationCenter defaultCenter] addObserver:win selector:@selector(exposeNotification:) name:@"NSWindowDidBecomeKeyNotification" object:win];
+      [[NSNotificationCenter defaultCenter] addObserver:win selector:@selector(lostFocusNotification:) name:@"NSWindowDidResignKeyNotification" object:win];
       [[NSNotificationCenter defaultCenter] addObserver:win selector:@selector(deminiaturizeNotification:) name:@"NSWindowDidDeminiaturizeNotification" object:win];
       [[NSNotificationCenter defaultCenter] addObserver:win selector:@selector(closeNotification:) name:@"NSWindowWillCloseNotification" object:win];
       // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ctxNeedsUpdate:)
